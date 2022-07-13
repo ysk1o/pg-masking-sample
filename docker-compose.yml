@@ -1,0 +1,24 @@
+---
+version: '3'
+
+services:
+  anonymizer:
+    image: registry.gitlab.com/dalibo/postgresql_anonymizer:stable
+    container_name: anonymizer
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${DB_USER}   # required
+      POSTGRES_PASSWORD: ${DB_PASSWORD}   # required
+      POSTGRES_DB: ${DB_NAME}   # required
+      POSTGRES_HOST: ${DB_HOST}
+      POSTGRES_PORT: ${DB_PORT}
+      PG_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgresql_anonymizer:/var/lib/postgresql/data
+      - ./postgres:/tmp/postgres
+      - ./postgres/config/.psqlrc:/root/.psqlrc
+
+volumes:
+  postgresql_anonymizer:
